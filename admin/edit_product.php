@@ -47,21 +47,27 @@
                 'region'  => AWS_REGION,
             ]);
             try {
-                $s3->putObject([
-                    'Bucket' => S3_BUCKET,
-                    'Key'    => 'admin/product_images/' . $product_image_one,
-                    'SourceFile' => $product_image_one_tmp,
-                ]);
-                $s3->putObject([
-                    'Bucket' => S3_BUCKET,
-                    'Key'    => 'admin/product_images/' . $product_image_two,
-                    'SourceFile' => $product_image_two_tmp,
-                ]);
-                $s3->putObject([
-                    'Bucket' => S3_BUCKET,
-                    'Key'    => 'admin/product_images/' . $product_image_three,
-                    'SourceFile' => $product_image_three_tmp,
-                ]);
+                if (isset($_FILES['product_image_one']) && $_FILES['product_image_one']['name'] != '') {
+                    $s3->putObject([
+                        'Bucket' => S3_BUCKET,
+                        'Key'    => 'admin/product_images/' . $product_image_one,
+                        'SourceFile' => $product_image_one_tmp,
+                    ]);
+                }
+                if (isset($_FILES['product_image_two']) && $_FILES['product_image_two']['name'] != '') {
+                    $s3->putObject([
+                        'Bucket' => S3_BUCKET,
+                        'Key'    => 'admin/product_images/' . $product_image_two,
+                        'SourceFile' => $product_image_two_tmp,
+                    ]);
+                }
+                if (isset($_FILES['product_image_three']) && $_FILES['product_image_three']['name'] != '') {
+                    $s3->putObject([
+                        'Bucket' => S3_BUCKET,
+                        'Key'    => 'admin/product_images/' . $product_image_three,
+                        'SourceFile' => $product_image_three_tmp,
+                    ]);
+                }
             } catch (AwsException $e) {
                 // Output error message if fails
                 error_log("S3 Upload Error: " . $e->getMessage());
